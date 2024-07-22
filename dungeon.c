@@ -19,7 +19,7 @@ void moveit(int row, int col, char input, int plxy[2], char area[5][9]){
     switch (input)
     {
     case 'w':
-        if(plxy[0] > 0){
+        if(area[plxy[0]-1][plxy[1]] == '.'){
             plxy[0] -= 1;
             area[temp[0]][temp[1]] = '.';
             area[plxy[0]][plxy[1]] = '@';
@@ -27,7 +27,7 @@ void moveit(int row, int col, char input, int plxy[2], char area[5][9]){
         break;
 
     case 'a':
-            if(plxy[1] > 0){
+            if(area[plxy[0]][plxy[1]-1] == '.'){
             plxy[1] -= 1;
             area[temp[0]][temp[1]] = '.';
             area[plxy[0]][plxy[1]] = '@';
@@ -35,7 +35,7 @@ void moveit(int row, int col, char input, int plxy[2], char area[5][9]){
 
         break;
     case 's':
-            if(plxy[0] < row){
+            if(area[plxy[0]+1][plxy[1]] == '.'){
             plxy[0] += 1;
             area[temp[0]][temp[1]] = '.';
             area[plxy[0]][plxy[1]] = '@';
@@ -43,7 +43,7 @@ void moveit(int row, int col, char input, int plxy[2], char area[5][9]){
 
         break;
     case 'd':
-            if(plxy[1] < col){
+            if(area[plxy[0]][plxy[1]+1] == '.'){
             plxy[1] += 1;
             area[temp[0]][temp[1]] = '.';
             area[plxy[0]][plxy[1]] = '@';
@@ -67,11 +67,11 @@ int main(){
     char input;
 	
 	char area[5][9] = {
-                        {'.','.','.','.','.','.','.','.','.'},
-                        {'.','.','.','.','.','.','.','.','.'},
-                        {'.','.','.','.','.','.','.','.','.'},
-                        {'.','.','.','.','.','.','.','.','.'},
-                        {'.','.','.','.','.','.','.','.','.'}
+                        {'#','#','#','#','#','#','#','#','#'},
+                        {'#','.','.','.','.','.','.','.','#'},
+                        {'#','.','.','.','.','.','.','.','#'},
+                        {'#','.','.','.','.','.','.','.','#'},
+                        {'#','#','#','#','#','#','#','#','#'}
                       };
     int row = (sizeof(area)/sizeof(area[0]))-1;
     int col = (sizeof(area[0])/sizeof(area[0][0]))-1;
