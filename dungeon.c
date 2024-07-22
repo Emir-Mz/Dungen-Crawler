@@ -4,7 +4,27 @@ void printa(int row, int col, char area[row+1][col+1]){
 
     for(int i = 0; i <= row; i++){
         for(int j = 0; j <= col; j++){
-            printf("%c", area[i][j]);
+            switch (area[i][j])
+            {
+            case '#':
+                printf("\x1b[33m%c\x1b[0m", area[i][j]);
+                printf(" ");
+                break;
+            case '.':
+                printf("\x1b[30m%c\x1b[0m", area[i][j]);
+                printf(" ");
+                break;
+            case '@':
+                printf("\x1b[36m%c\x1b[0m", area[i][j]);
+                printf(" ");
+                break;
+            case '=':
+                printf("%c", area[i][j]);
+                printf(" ");
+                break;
+            default:
+                break;
+            }
         }
         printf("\n");
     }
@@ -182,7 +202,7 @@ int main(){
     printa(row, col, area1);
 
 	while(ext == 1){
-        printf("\n\n\n\n");
+        printf("\n\n\n\n\n\n\n\n");
         printa(row, col, curarea);
         printf("x%d y%d\n", plxy[0], plxy[1]); 
         scanf(" %c", &input);
@@ -199,6 +219,9 @@ int main(){
             break;
         case 'd':
             moveit(row, col, input, plxy, curarea, area1, area2, areachec);
+            break;
+        case 'b':
+            ext = 0;
             break;
         
         default:
