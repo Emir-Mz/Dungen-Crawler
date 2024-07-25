@@ -8,19 +8,19 @@ void printa(int row, int col, char area[row+1][col+1]){
             {
             case '#':
                 printf("\x1b[33m%c\x1b[0m", area[i][j]);
-                printf(" ");
+                printf(" ");//yellow
                 break;
             case '.':
                 printf("\x1b[30m%c\x1b[0m", area[i][j]);
-                printf(" ");
+                printf(" ");//black
                 break;
             case '@':
                 printf("\x1b[36m%c\x1b[0m", area[i][j]);
-                printf(" ");
+                printf(" ");//cyan
                 break;
             case '=':
                 printf("%c", area[i][j]);
-                printf(" ");
+                printf(" ");//nothing
                 break;
             default:
                 break;
@@ -41,11 +41,13 @@ void areacopy(int row, int col, char areain[9][14], char areaout[9][14]){
     }
 }
 
+void areahandel(){
 
+}
 
-
+//will make this function sharter in the next update first i need to make a area handeler func
 void moveit(int row, int col, char input, int plxy[2], char curarea[row+1][col+1], char area1[row+1][col+1], char area2[row+1][col+1], int areachec){
-
+//ABSOLUTE MOUNTAIN OF ARGUMENTS HELP!!!
     int temp[2];
     temp[0] = plxy[0];
     temp[1] = plxy[1];
@@ -179,7 +181,7 @@ int main(){
                         {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
                         {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
                       };
-
+    //will move this to another file to not waste space
     
     int rowa = (sizeof(area1)/sizeof(area1[0]))-1;
     int cola = (sizeof(area1[0])/sizeof(area1[0][0]))-1;
@@ -208,7 +210,7 @@ int main(){
         scanf(" %c", &input);
         switch (input)
         {
-        case 'w':
+        case 'w'://this is a mess of arguments
             moveit(row, col, input, plxy, curarea, area1, area2, areachec);
             break;
         case 'a':
