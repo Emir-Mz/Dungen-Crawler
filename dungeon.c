@@ -45,50 +45,35 @@ void areahandel(){
 
 }
 
-//will make this function sharter in the next update first i need to make a area handeler func
-void moveit(int row, int col, char input, int plxy[2], char curarea[row+1][col+1], char area1[row+1][col+1], char area2[row+1][col+1], int areachec){
+//WOW i was able to cut this down soooo muck nw i just need to make a area handeler func
+void moveit(int row, int col, char input,int inptx, int inpty, int plxy[2], char curarea[row+1][col+1], char area1[row+1][col+1], char area2[row+1][col+1], int areachec){
 //ABSOLUTE MOUNTAIN OF ARGUMENTS HELP!!!
     int temp[2];
     temp[0] = plxy[0];
     temp[1] = plxy[1];
 
-    switch (input)
+    switch (curarea[plxy[0]+inptx][plxy[1]+inpty])
     {
-    case 'w':
-        switch (curarea[plxy[0]-1][plxy[1]])
+    case '.':
+        plxy[0] += inptx;
+        plxy[1] += inpty;
+        curarea[temp[0]][temp[1]] = '.';
+        curarea[plxy[0]][plxy[1]] = '@';
+        break;
+    case '=':
+        switch (areachec)
         {
-        case '.':
-            plxy[0] -= 1;
-            curarea[temp[0]][temp[1]] = '.';
-            curarea[plxy[0]][plxy[1]] = '@';
-            break;
-        case '=':
-            switch (areachec)
-            {
-            case 1:
-                
-                break;
+        case 1:
             
-            default:
-                break;
-            }
+            break;
         
         default:
             break;
         }
-
+    default:
         break;
-
-    case 'a':
-        switch (curarea[plxy[0]][plxy[1]-1])
-        {
-        case '.':
-            plxy[1] -= 1;
-            curarea[temp[0]][temp[1]] = '.';
-            curarea[plxy[0]][plxy[1]] = '@';
-            break;
-        case '=':
-            switch (areachec)
+    }
+    /*switch (areachec)
             {
             case 1:
                 areachec = 1;
@@ -97,39 +82,7 @@ void moveit(int row, int col, char input, int plxy[2], char curarea[row+1][col+1
                 plxy[1] = 12;
                 curarea[plxy[0]][plxy[1]] = '@';
                 break;
-            
-            default:
-                break;
-            }
-        default:
-            break;
-        }
-        break;
-    case 's':
-
-        switch (curarea[plxy[0]+1][plxy[1]])
-        {
-        case '.':
-            plxy[0] += 1;
-            curarea[temp[0]][temp[1]] = '.';
-            curarea[plxy[0]][plxy[1]] = '@';
-            break;
-        case '=':
-
-        }
-
-        break;
-    case 'd':
-
-        switch (curarea[plxy[0]][plxy[1]+1])
-        {
-        case '.':
-            plxy[1] += 1;
-            curarea[temp[0]][temp[1]] = '.';
-            curarea[plxy[0]][plxy[1]] = '@';
-            break;
-        case '=':
-            switch (areachec)
+    switch (areachec)
             {
             case 1:
                 areachec = 2;
@@ -138,15 +91,7 @@ void moveit(int row, int col, char input, int plxy[2], char curarea[row+1][col+1
                 plxy[1] = 1;
                 curarea[plxy[0]][plxy[1]] = '@';
                 break;
-            
-            default:
-                break;
-            }
-        }
-        break;
-    default:
-        break;
-    }
+    */
 }
 
 int main(){
@@ -211,16 +156,16 @@ int main(){
         switch (input)
         {
         case 'w'://this is a mess of arguments
-            moveit(row, col, input, plxy, curarea, area1, area2, areachec);
+            moveit(row, col, input, -1, 0, plxy, curarea, area1, area2, areachec);
             break;
         case 'a':
-            moveit(row, col, input, plxy, curarea, area1, area2, areachec);
+            moveit(row, col, input, 0, -1, plxy, curarea, area1, area2, areachec);
             break;
         case 's':
-            moveit(row, col, input, plxy, curarea, area1, area2, areachec);
+            moveit(row, col, input, 1, 0, plxy, curarea, area1, area2, areachec);
             break;
         case 'd':
-            moveit(row, col, input, plxy, curarea, area1, area2, areachec);
+            moveit(row, col, input, 0, 1, plxy, curarea, area1, area2, areachec);
             break;
         case 'b':
             ext = 0;
