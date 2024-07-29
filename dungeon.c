@@ -1,26 +1,23 @@
 #include<stdio.h>
+#include"arealib.h"
 
-void printa(int row, int col, char area[row+1][col+1]){
+void printa(int row, int col, char area[5][5][10][16], int curent[2]){
 
-    for(int i = 0; i <= row; i++){
-        for(int j = 0; j <= col; j++){
-            switch (area[i][j])
+    for(int i = 0; i <= 9; i++){
+        for(int j = 0; j <= 15; j++){
+            switch (area[curent[0]][curent[1]][i][j])
             {
             case '#':
-                printf("\x1b[33m%c\x1b[0m", area[i][j]);
-                printf(" ");//yellow
+                printf("\x1b[33m%c \x1b[0m", area[curent[0]][curent[1]][i][j]);//yellow
                 break;
             case '.':
-                printf("\x1b[30m%c\x1b[0m", area[i][j]);
-                printf(" ");//black
+                printf("\x1b[30m%c \x1b[0m", area[curent[0]][curent[1]][i][j]);//black
                 break;
             case '@':
-                printf("\x1b[36m%c\x1b[0m", area[i][j]);
-                printf(" ");//cyan
+                printf("\x1b[36m%c \x1b[0m", area[curent[0]][curent[1]][i][j]);//cyan
                 break;
             case '=':
-                printf("%c", area[i][j]);
-                printf(" ");//nothing
+                printf("%c ", area[curent[0]][curent[1]][i][j]);//nothing
                 break;
             default:
                 break;
@@ -30,68 +27,36 @@ void printa(int row, int col, char area[row+1][col+1]){
     }
 }
 
-void areacopy(int row, int col, char areain[9][14], char areaout[9][14]){
 
-    for(int i = 0; i <= row; i++){
-        for (int j = 0; j <= col; j++)
-        {
-            areaout[i][j] = areain[i][j];
-        }
-        
-    }
-}
 
-void areahandel(){
+void moveit(int inptx, int inpty, int areainptx, int areainpty, int plxy[2], char area[5][5][10][16], int curent[2]){
 
-}
-
-//WOW i was able to cut this down soooo muck nw i just need to make a area handeler func
-void moveit(int row, int col, char input,int inptx, int inpty, int plxy[2], char curarea[row+1][col+1], char area1[row+1][col+1], char area2[row+1][col+1], int areachec){
-//ABSOLUTE MOUNTAIN OF ARGUMENTS HELP!!!
     int temp[2];
     temp[0] = plxy[0];
     temp[1] = plxy[1];
 
-    switch (curarea[plxy[0]+inptx][plxy[1]+inpty])
+    switch (area[curent[0]][curent[1]][plxy[0]+inptx][plxy[1]+inpty])
     {
     case '.':
         plxy[0] += inptx;
         plxy[1] += inpty;
-        curarea[temp[0]][temp[1]] = '.';
-        curarea[plxy[0]][plxy[1]] = '@';
+        area[curent[0]][curent[1]][temp[0]][temp[1]] = '.';
+        area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
         break;
+
     case '=':
-        switch (areachec)
-        {
-        case 1:
-            
-            break;
         
-        default:
-            break;
-        }
+        plxy[0] += areainptx;
+        plxy[1] += areainpty;
+        curent[0] += inptx;
+        curent[1] += inpty;
+        area[curent[0]][curent[1]][temp[0]][temp[1]] = '.';
+        area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
+
     default:
         break;
     }
-    /*switch (areachec)
-            {
-            case 1:
-                areachec = 1;
-                areacopy(row, col, area1, curarea);
-                plxy[0] = temp[0];
-                plxy[1] = 12;
-                curarea[plxy[0]][plxy[1]] = '@';
-                break;
-    switch (areachec)
-            {
-            case 1:
-                areachec = 2;
-                areacopy(row, col, area2, curarea);
-                plxy[0] = temp[0];
-                plxy[1] = 1;
-                curarea[plxy[0]][plxy[1]] = '@';
-                break;
-    */
+
 }
 
 int main(){
@@ -101,71 +66,44 @@ int main(){
     char input;
     int areachec = 1;
 
-    char curarea[9][14];
+    char area[5][5][10][16];
+    arealib(area);
 
-	char area1[9][14] = {
-                        {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','='},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','='},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
-                      };
-
-    char area2[9][14] = {
-                        {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'},
-                        {'#','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'=','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'=','.','.','#','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','#','#','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','.','.','.','.','.','.','.','.','.','.','.','.','#'},
-                        {'#','#','#','#','#','#','#','#','#','#','#','#','#','#'}
-                      };
-    //will move this to another file to not waste space
+    int curent[2] = {0, 0};
+  
+    int row = (sizeof(area)/sizeof(area[0]))-1;
+    int col = (sizeof(area[0])/sizeof(area[0][0]))-1;
     
-    int rowa = (sizeof(area1)/sizeof(area1[0]))-1;
-    int cola = (sizeof(area1[0])/sizeof(area1[0][0]))-1;
-    
-    areacopy(rowa, cola, area1, curarea);
-
-    int row = (sizeof(curarea)/sizeof(curarea[0]))-1;
-    int col = (sizeof(curarea[0])/sizeof(curarea[0][0]))-1;
 
     printf("%d", row);
     printf("%d", col);
 
-    printa(row, col, area1);
+    printa(row, col, area, curent);
     printf("\n\n\n\n");
 
     
 
-    curarea[plxy[0]][plxy[1]] = '@';
+    area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
 
-    printa(row, col, area1);
 
 	while(ext == 1){
         printf("\n\n\n\n\n\n\n\n");
-        printa(row, col, curarea);
+        printa(row, col, area, curent);
         printf("x%d y%d\n", plxy[0], plxy[1]); 
         scanf(" %c", &input);
         switch (input)
         {
         case 'w'://this is a mess of arguments
-            moveit(row, col, input, -1, 0, plxy, curarea, area1, area2, areachec);
+            moveit(-1, 0, 9, 0, plxy, area, curent);
             break;
         case 'a':
-            moveit(row, col, input, 0, -1, plxy, curarea, area1, area2, areachec);
+            moveit(0, -1, 0, 13, plxy, area, curent);
             break;
         case 's':
-            moveit(row, col, input, 1, 0, plxy, curarea, area1, area2, areachec);
+            moveit(1, 0, -9, 0, plxy, area, curent);
             break;
         case 'd':
-            moveit(row, col, input, 0, 1, plxy, curarea, area1, area2, areachec);
+            moveit(0, 1, 0, -13, plxy, area, curent);
             break;
         case 'b':
             ext = 0;

@@ -1,0 +1,1 @@
+void arealib(char area[5][5][10][16]);
