@@ -1,5 +1,11 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include"arealib.h"
+#include"health.h"
+#include <time.h>
+#include <unistd.h>
+
+
 
 void printa(int row, int col, char area[5][5][10][16], int curent[2]){
 
@@ -19,17 +25,25 @@ void printa(int row, int col, char area[5][5][10][16], int curent[2]){
             case '=':
                 printf("%c ", area[curent[0]][curent[1]][i][j]);//nothing
                 break;
+            case '^':
+                printf("\x1b[31m%c \x1b[0m", area[curent[0]][curent[1]][i][j]);
+                break;
             default:
                 break;
             }
         }
-        printf("\n");
+        if (i < 9)
+        {
+            printf("\n");
+        }
+        
+        
     }
 }
 
 
 
-void moveit(int inptx, int inpty, int areainptx, int areainpty, int plxy[2], char area[5][5][10][16], int curent[2]){
+void moveit(int inptx, int inpty, int areainptx, int areainpty, int bar, int plxy[2], char area[5][5][10][16], int curent[2]){
 
     int temp[2];
     temp[0] = plxy[0];
@@ -46,12 +60,19 @@ void moveit(int inptx, int inpty, int areainptx, int areainpty, int plxy[2], cha
 
     case '=':
         
+        area[curent[0]][curent[1]][temp[0]][temp[1]] = '.';
         plxy[0] += areainptx;
         plxy[1] += areainpty;
         curent[0] += inptx;
         curent[1] += inpty;
         area[curent[0]][curent[1]][temp[0]][temp[1]] = '.';
         area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
+        break;
+
+    case '^':
+
+        
+        break;
 
     default:
         break;
@@ -65,6 +86,9 @@ int main(){
     int ext = 1;
     char input;
     int areachec = 1;
+
+    int bar = 4;
+    int max = 10;
 
     char area[5][5][10][16];
     arealib(area);
@@ -81,32 +105,34 @@ int main(){
     printa(row, col, area, curent);
     printf("\n\n\n\n");
 
-    
+
 
     area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
-
+    save_screen();
 
 	while(ext == 1){
         printf("\n\n\n\n\n\n\n\n");
         printa(row, col, area, curent);
-        printf("x%d y%d\n", plxy[0], plxy[1]); 
+        //health(bar, max);
+        printf("\nx%d y%d\n", plxy[0], plxy[1]); 
         scanf(" %c", &input);
         switch (input)
         {
         case 'w'://this is a mess of arguments
-            moveit(-1, 0, 9, 0, plxy, area, curent);
+            moveit(-1, 0, 7, 0, bar, plxy, area, curent);
             break;
         case 'a':
-            moveit(0, -1, 0, 13, plxy, area, curent);
+            moveit(0, -1, 0, 13, bar, plxy, area, curent);
             break;
         case 's':
-            moveit(1, 0, -9, 0, plxy, area, curent);
+            moveit(1, 0, -7, 0, bar, plxy, area, curent);
             break;
         case 'd':
-            moveit(0, 1, 0, -13, plxy, area, curent);
+            moveit(0, 1, 0, -13, bar, plxy, area, curent);
             break;
         case 'b':
             ext = 0;
+            restore_screen(0);
             break;
         
         default:
