@@ -1,11 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"getchar.h"
 #include"arealib.h"
 #include"health.h"
-#include <time.h>
-#include <unistd.h>
+#include<unistd.h>
 
+void save_screen() {
+    system("tput smcup"); 
+}
 
+void restore_screen() {
+    system("tput rmcup"); 
+}
+
+char getCharWithoutEnter();
 
 void printa(int row, int col, char area[5][5][10][16], int curent[2]){
 
@@ -115,7 +123,7 @@ int main(){
         printa(row, col, area, curent);
         //health(bar, max);
         printf("\nx%d y%d\n", plxy[0], plxy[1]); 
-        scanf(" %c", &input);
+        input = getCharWithoutEnter();
         switch (input)
         {
         case 'w'://this is a mess of arguments
