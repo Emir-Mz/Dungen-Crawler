@@ -18,6 +18,8 @@ char getCharWithoutEnter();
 void printa(int row, int col, char area[5][5][10][16], int curent[2]){
 
     for(int i = 0; i <= 9; i++){
+        printf("\r");
+        printf("\t");
         for(int j = 0; j <= 15; j++){
             switch (area[curent[0]][curent[1]][i][j])
             {
@@ -44,9 +46,14 @@ void printa(int row, int col, char area[5][5][10][16], int curent[2]){
         {
             printf("\n");
         }
-        
-        
     }
+    printf("\n\n\n");
+    for (int i = 0; i < 12; i++)
+    {
+        printf("\033[F");
+    }
+    
+
 }
 
 
@@ -106,23 +113,13 @@ int main(){
     int row = (sizeof(area)/sizeof(area[0]))-1;
     int col = (sizeof(area[0])/sizeof(area[0][0]))-1;
     
-
-    printf("%d", row);
-    printf("%d", col);
-
-    printa(row, col, area, curent);
-    printf("\n\n\n\n");
-
-
-
     area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
     save_screen();
 
 	while(ext == 1){
-        printf("\n\n\n\n\n\n\n\n");
         printa(row, col, area, curent);
         //health(bar, max);
-        printf("\nx%d y%d\n", plxy[0], plxy[1]); 
+        //printf("\nx%d y%d\n", plxy[0], plxy[1]); 
         input = getCharWithoutEnter();
         switch (input)
         {
