@@ -38,6 +38,9 @@ void printa(int row, int col, char area[5][5][10][16], int curent[2]){
             case '^':
                 printf("\x1b[31m%c \x1b[0m", area[curent[0]][curent[1]][i][j]);
                 break;
+            case '1':
+                printf("\x1b[35m# \x1b[0m");
+                break;
             default:
                 break;
             }
@@ -84,9 +87,19 @@ void moveit(int inptx, int inpty, int areainptx, int areainpty, int bar, int plx
         area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
         break;
 
-    case '^':
-
+    case '1':
         
+        switch (area[curent[0]][curent[1]][plxy[0]+inptx*2][plxy[1]+inpty*2]){
+
+            case '.':
+        
+            plxy[0] += inptx;
+            plxy[1] += inpty;
+            area[curent[0]][curent[1]][temp[0]][temp[1]] = '.';
+            area[curent[0]][curent[1]][plxy[0]][plxy[1]] = '@';
+            area[curent[0]][curent[1]][plxy[0]+inptx][plxy[1]+inpty] = '1';
+            break;
+        }
         break;
 
     default:
